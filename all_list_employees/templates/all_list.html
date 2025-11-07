@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<body>
+    <h1>Список сотрудников</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Отдел</th>
+                <th>Должность</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in all_staff %}
+                <tr>
+                    <td>{{ staff.full_name }}</td>
+                    <td>{{ staff.department }}</td>
+                    <td>{{ staff.role }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Нет данных</td>
+                </tr>
+                        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

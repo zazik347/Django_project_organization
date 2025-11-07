@@ -1,0 +1,42 @@
+.bg-body-secondary{
+    background-image: url("../img/index.jpg");
+}
+.avtomatiz, .list_about {
+    width: 100%;
+}
+.custom-list {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.custom-list li {
+    margin-bottom: 10px;
+}
+.ul_about {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: circle
+}
+.main_contacts {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.login_btn {
+    margin-right: 10px;
+}
+
+.employees_title {
+    margin: 50px 0;
+}
+
+.link_save {
+    margin-top: 20px;
+}
+.btn_contract{
+    margin-top: 20px;
+}

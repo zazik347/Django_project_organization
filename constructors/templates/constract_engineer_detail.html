@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {{ department.name.name }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+      <header class="border-bottom lh-1 py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        <a class="link-secondary" href="#">Subscribe</a>
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">Проектная организация</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="link-secondary" href="#" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
+        </a>
+        {% if request.user.is_authenticated %}
+          <p class="me-2 mb-0">Вы вошли как: {{ request.user.username }}</p>
+          <a href="{% url 'user:logout' %}" class="btn btn-danger mt-3">Выйти</a>
+        {% else %}
+          <a class="btn btn-sm btn-outline-secondary login_btn" href="{% url 'user:login' %}">Login</a>
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'user:register' %}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <div class="nav-scroller py-1 mb-3 border-bottom">
+    <nav class="nav nav-underline justify-content-between">
+      <a class="nav-item nav-link link-body-emphasis active" href="{% url 'main_page:index' %}">Главная</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:about' %}">О нас</a>
+      <a class="nav-item nav-link link-body-emphasis" href="#">Услуги</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'projects:project_list' %}">Проекты</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:contacts' %}">Контакты</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:reviews' %}" >Отзывы</a>
+    </nav>
+  </div>
+    <div class="container_login">
+    <div class="d-flex align-items-center py-4 bg-body-tertiary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="check2" viewBox="0 0 16 16">
+                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
+            </symbol>
+            <symbol id="circle-half" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+            </symbol>
+            <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+            </symbol>
+            <symbol id="sun-fill" viewBox="0 0 16 16">
+                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+            </symbol>
+        </svg>
+    <div class="card" style="width: 18rem;">
+        <!-- Фото сотрудника -->
+        <img src="{% if worker.photo %}
+            {{ worker.photo.url }}?v={{ worker.photo.last_modified|default_if_none:0 }}
+            {% else %}/static/images/default-profile.png
+            {% endif %}"
+             class="card-img-top"
+             alt="Фото {{ worker.full_name }}"
+             style="height: 300px;">
+  <div class="card-body">
+    <h5 class="card-title">{{ worker.worker_constr.full_name }}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+            {% if worker.role %}
+    <strong>Должность:</strong> {{worker.role}}<br>
+        {% else %}
+    <strong>Должность:</strong> Не указана
+    {% endif %}
+    </li>
+      <li class="list-group-item">
+        <strong>Дата рождения:</strong> {{worker.worker_constr.birth_date}}</li>
+    <li class="list-group-item">
+        <strong>Стаж работы:</strong>
+        {{worker.experience }}<br>
+    <p><strong>Дата рождения:</strong> {{worker.worker_constr.birth_date}}</p></li>
+    <li class="list-group-item">
+    <strong>Проекты:</strong>
+        {% if worker.projects.all %}
+            <ul class="mb-0">
+                {% for project in worker.projects.all %}
+                    <li>{{ project}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+  </ul>
+  <div class="card-body">
+    <a href="{% url 'constractors:engineer_constract_update' worker.pk %}" class="card-link">Редактировать профиль</a>
+      <a href="{% url 'constractors:constract_department_detail'%}" class="card-link">В отдел</a>
+  </div>
+</div>
+    </div>
+    </div>
+</div>
+{% endblock %}
