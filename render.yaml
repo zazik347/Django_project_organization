@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: Django project
+    name: Django Project
     runtime: python
     env: python
     envVars:
@@ -12,10 +12,5 @@ services:
         generateValue: true
       - key: ALLOWED_HOSTS
         value: .onrender.com,localhost
-    buildCommand: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt
-      pip list
-      python manage.py migrate
+    buildCommand: python -m pip install -r requirements.txt
     startCommand: python -m gunicorn project_organization.wsgi:application
-
