@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: Django project
+    runtime: python
+    env: python
+    envVars:
+      - key: POETRY_ENABLED
+        value: false
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: .onrender.com,localhost
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+      pip list
+      python manage.py migrate
+    startCommand: python -m gunicorn project_organization.wsgi:application
+
