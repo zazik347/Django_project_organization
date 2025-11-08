@@ -56,3 +56,5 @@ logs/
 *.coverage
 .coverage
 htmlcov/
+pyproject.toml
+poetry.lock
