@@ -1,16 +1,18 @@
 services:
   - type: web
-    name: Django Project
+    name: django-project-organization
     runtime: python
-    env: python
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input"
+    startCommand: "gunicorn django_project_organization.wsgi:application"
     envVars:
-      - key: POETRY_ENABLED
-        value: false
       - key: DEBUG
         value: false
       - key: SECRET_KEY
         generateValue: true
-      - key: ALLOWED_HOSTS
-        value: .onrender.com,localhost
-    buildCommand: python -m pip install -r requirements.txt
-    startCommand: python -m gunicorn project_organization.wsgi:application
+      - key: DATABASE_URL
+        fromDatabase:
+          name: django-project-db
+          property: connectionString
+    databases:
+      - name: django-project-db
+        plan: free
