@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Отдел проектирования систем автоматизации
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Отдел проектирования систем автоматизации</h1>
+    <ul>
+        {% for department in departments %}
+            <li>
+                <a href="{% url 'avtomatization:automation_department_detail' department.pk %}">{{ department.name }}</a>
+                {% if department.description %}
+                    <p>{{ department.description|truncatewords:10 }}</p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Нет отделов автоматизации</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+

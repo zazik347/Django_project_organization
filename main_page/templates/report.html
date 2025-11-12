@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Главная страница
+{% endblock %}
+{% block body %}
+<h1>Отчет о стоимости договоров</h1>
+<p>Общая стоимость: {{ total_cost }}</p>
+<ul>
+    {% for contract in contracts %}
+        <li>{{ contract.client }} - {{ contract.total_cost }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

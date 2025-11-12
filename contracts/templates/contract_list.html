@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список договоров</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Список договоров</h1>
+        <ul class="list-group">
+            {% for contract in contracts %}
+                <li class="list-group-item">
+                    <a href="{% url 'contract_projects' contract.id %}">{{ contract.client }}</a> -
+                    {{ contract.total_cost}} руб.
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

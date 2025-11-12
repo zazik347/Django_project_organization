@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Проекты по договору с {{ contract.client }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Проекты по договору с {{contract.client}}</h1>
+        <p><strong>Менеджер:</strong> {{contract.manager.full_name}}</p>
+        <p><strong>Дата начала:</strong> {{contract.start_date}}</p>
+        <p><strong>Дата окончания:</strong> {{contract.end_date}}</p>
+        <p><strong>Стоимость:</strong> {{contract.total_cost}}</p>
+
+        <h2>Проекты:</h2>
+        <ul class="list-group">
+            {% for project in projects %}
+                <li class="list-group-item">
+                    <a href="{% url 'project_detail' project.id %}">{{ project.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

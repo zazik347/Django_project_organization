@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Активность{% endblock %}
+{% block body %}
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <h1 class="text-white">История активности</h1>
+    </div>
+</header>
+
+<main class="index-main">
+    <div class="container mt-5">
+        {% if activities %}
+            <ul class="list-group">
+                {% for activity in activities %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ activity.action_type|title }}</strong><br>
+                           IP: {{ activity.ip_address }}<br>
+                        </div>
+                        <small class="text-muted">{{ activity.timestamp|date:"d.m.Y H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У вас пока нет активности.</p>
+        {% endif %}
+        <a href="{% url 'weather:index' %}" class="btn btn-secondary mt-4">Назад</a>
+    </div>
+</main>
+{% endblock %}

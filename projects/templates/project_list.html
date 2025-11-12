@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{ department.name.name }}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <header class="border-bottom lh-1 py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+            <a class="link-secondary" href="#">Subscribe</a>
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">Проектная организация</a>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="link-secondary" href="#" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
+            </a>
+            {% if request.user.is_authenticated %}
+              <p class="me-2 mb-0">Вы вошли как: {{ request.user.username }}</p>
+              <a href="{% url 'user:logout' %}" class="btn btn-danger mt-3">Выйти</a>
+            {% else %}
+              <a class="btn btn-sm btn-outline-secondary login_btn" href="{% url 'user:login' %}">Login</a>
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'user:register' %}">Sign up</a>
+            {% endif %}
+          </div>
+        </div>
+  </header>
+    <div class="nav-scroller py-1 mb-3 border-bottom">
+    <nav class="nav nav-underline justify-content-between">
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:index' %}">Главная</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:about' %}">О нас</a>
+      <a class="nav-item nav-link link-body-emphasis" href="#">Услуги</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'projects:project_list' %}">Проекты</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:contacts' %}">Контакты</a>
+      <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:reviews' %}" >Отзывы</a>
+    </nav>
+  </div>
+    <div class="container mt-4">
+        <h1>Список проектов</h1>
+        <ul class="list-group">
+            {% for project in projects %}
+                <li class="list-group-item">
+                    <a href="{% url 'projects:project_employees' project.id %}">{{ project.title }}</a> -
+                    {{ project.cost }} руб.
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="link_save">
+            <a href="{%url 'projects:active_projects'%}" class="btn btn-success">Получить текущие проекты</a>
+            <a href="{%url 'projects:projects_by_date'%}" class="btn btn-success">Выбрать период</a>
+            <a href="{%url 'equipment:equipment_distribution'%}" class="btn btn-success">Получить список оборудования</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

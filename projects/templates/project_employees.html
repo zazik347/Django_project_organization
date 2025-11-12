@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Сотрудники проекта {{ project.title }}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <h1>Сотрудники проекта {{project.title}}</h1>
+    <p><strong>Менеджер:</strong> {{ project.manager.full_name }}</p>
+    <p><strong>Дата начала:</strong> {{project.start_date }}</p>
+    <p><strong>Дата окончания:</strong> {{project.end_date}}</p>
+    <p><strong>Стоимость:</strong> {{project.cost}}</p>
+    <p><strong>Описание:</strong> <br>{{project.description}}></p>
+    <h2>Участники:</h2>
+    <ul class="list-group">
+        {% for assignment in project.employees.all %}
+        <li class="list-group-item">
+            {{ assignment.employee.full_name }}- {{ assignment.role }}
+        {% endfor %}
+    </ul>
+    <h2>Оборудование:</h2>
+    <ul class="list-group">
+        {% for item in project.equipment.all %}
+            <li class="list-group-item">{{ item.equipment.name }}</li>
+        {% empty %}
+            <li class="list-group-item">Нет оборудования.</li>
+        {% endfor %}
+    </ul>
+    <h2>Подрядчики:</h2>
+    <ul class="list-group">
+        {% for item in project.subcontractors.all %}
+            <li class="list-group-item">{{ item.name }}</li>
+        {% empty %}
+            <li class="list-group-item">Подрядчики не задействовались.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'projects:project_efficiency' %}">Показать эффективность проектов</a>
+    <div class="link_save">
+        <a class="download_btn" href="{% url 'projects:export_project' project.id %}" class="btn btn-success">Скачать Word</a>
+    </div>
+</div>
+{% endblock %}
