@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 import dj_database_url
 
@@ -95,27 +96,25 @@ WSGI_APPLICATION = 'project_organization.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 if 'DATABASE_URL' in os.environ:
-    # Парсим URL вручную, если dj_database_url не справляется
     database_url = os.environ['DATABASE_URL']
 
-    # На всякий случай заменяем postgres:// на postgresql://
+    # Заменяем postgres:// на postgresql://
     if database_url.startswith("postgres://"):
         database_url = database_url.replace("postgres://", "postgresql://", 1)
 
-    try:
-        DATABASES = {
-            'default': dj_database_url.parse(
-                database_url,
-                conn_max_age=600,
-                conn_health_checks=True
-            )
+    # Разбираем URL вручную
+    url = urlparse(database_url)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': url.path[1:],  # Убираем первый символ '/' из пути
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port or 5432,
+            'CONN_MAX_AGE': 600,
         }
-        # Принудительно укажем ENGINE
-        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    except Exception as e:
-        # На случай ошибки — выведем для отладки (в продакшене убрать!)
-        print(f"Ошибка парсинга DATABASE_URL: {e}")
-        raise
+    }
 else:
     DATABASES = {
         'default': {
