@@ -2,8 +2,8 @@ services:
   - type: web
     name: django-project-organization
     runtime: python
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input"
-    startCommand: "gunicorn project_organization.wsgi:application"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python manage.py migrate && gunicorn project_organization.wsgi:application"
     envVars:
       - key: DEBUG
         value: false
