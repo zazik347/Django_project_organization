@@ -94,14 +94,28 @@ WSGI_APPLICATION = 'project_organization.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Настройка базы данных: PostgreSQL в продакшене, SQLite локально
 if 'DATABASE_URL' in os.environ:
-    db_url = os.environ['DATABASE_URL']
-    DATABASES = {
-        'default': dj_database_url.parse(db_url, conn_max_age=600, conn_health_checks=True)
-    }
-    # Принудительно укажем движок
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    # Парсим URL вручную, если dj_database_url не справляется
+    database_url = os.environ['DATABASE_URL']
+
+    # На всякий случай заменяем postgres:// на postgresql://
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(
+                database_url,
+                conn_max_age=600,
+                conn_health_checks=True
+            )
+        }
+        # Принудительно укажем ENGINE
+        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    except Exception as e:
+        # На случай ошибки — выведем для отладки (в продакшене убрать!)
+        print(f"Ошибка парсинга DATABASE_URL: {e}")
+        raise
 else:
     DATABASES = {
         'default': {
@@ -109,7 +123,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
