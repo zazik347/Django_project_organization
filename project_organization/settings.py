@@ -91,33 +91,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project_organization.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#
-#     }
-# }
-# База данных: сначала пытаемся взять DATABASE_URL, иначе — SQLite3 (только для локальной разработки)
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
-#     )
-# }
-#
-# # Для локального запуса с SQLite (опционально)
-# # Если нет DATABASE_URL, используем SQLite
-# if 'DATABASE_URL' not in os.environ:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
 # Настройка базы данных: PostgreSQL в продакшене, SQLite локально
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
