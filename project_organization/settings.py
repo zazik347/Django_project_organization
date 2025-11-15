@@ -96,12 +96,12 @@ WSGI_APPLICATION = 'project_organization.wsgi.application'
 
 # Настройка базы данных: PostgreSQL в продакшене, SQLite локально
 if 'DATABASE_URL' in os.environ:
+    db_url = os.environ['DATABASE_URL']
     DATABASES = {
-        'default': dj_database_url.config(
-            conn_max_age=600,           # Соединение живёт 10 минут
-            conn_health_checks=True,    # Проверка здоровья соединения
-        )
+        'default': dj_database_url.parse(db_url, conn_max_age=600, conn_health_checks=True)
     }
+    # Принудительно укажем движок
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 else:
     DATABASES = {
         'default': {
@@ -109,6 +109,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
