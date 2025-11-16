@@ -8,7 +8,6 @@ from employees.models import Employee
 class Contract(models.Model):
     client = models.CharField(max_length=255)
     number = models.CharField(max_length=50)
-    project_more = models.ForeignKey('projects.Project', on_delete=models.CASCADE, related_name='contracts',)
     start_date = models.DateField(default=date.fromisoformat('2025-10-20'))
     end_date = models.DateField(null=True, blank=True)
     total_cost = models.DecimalField(max_digits=12, decimal_places=2)
