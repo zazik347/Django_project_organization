@@ -178,3 +178,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Настройки для работы на HTTPS (Render, Heroku и др.)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False  # Оставь False, если не уверен
+
+# Куки для CSRF и сессий
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Опционально: если используешь кастомный домен
+CSRF_COOKIE_SECURE = False  # Оставь False, если нет HTTPS на 100%
+SESSION_COOKIE_SECURE = False
