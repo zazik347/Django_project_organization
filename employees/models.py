@@ -17,6 +17,13 @@ class Employee(models.Model):
         default=0
     )
 
+    @property
+    def age(self):
+        today = date.today()
+        return today.year - self.birth_date.year - (
+            (today.month, today.day) < (self.birth_date.month, self.birth_date.day)
+        )
+
     def __str__(self):
         return self.full_name
 

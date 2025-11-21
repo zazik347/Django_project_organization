@@ -1,8 +1,10 @@
 import json
+from datetime import timedelta, date
 
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from avtomatizations.models import AutomationEngineer, AutomationRole
@@ -25,6 +27,53 @@ def employee_list(request):
                   'engineers': engineers,
                   'constructors': constructors})
 
+def filtered_employee_list(request):
+    # Получаем всех сотрудников
+    employees = list(Employee.objects.all())
+
+
+    # Объединяем
+    all_employees = employees
+
+    # Получаем фильтры
+    age_min = request.GET.get('age_min')
+    age_max = request.GET.get('age_max')
+
+    today = timezone.now().date()
+
+    # Функция для расчёта возраста
+    def calculate_age(birth_date):
+        if not birth_date:
+            return None
+        return today.year - birth_date.year - (
+            (today.month, today.day) < (birth_date.month, birth_date.day)
+        )
+
+    # Фильтруем в Python
+    filtered_employees = []
+    for emp in all_employees:
+        age = calculate_age(emp.birth_date)  # Считаем возраст
+        emp._age = age  # Сохраняем как временное поле (не трогаем @property)
+
+        if age is None:
+            continue
+
+        # Проверяем фильтры
+        if age_min and age < int(age_min):
+            continue
+        if age_max and age > int(age_max):
+            continue
+
+        filtered_employees.append(emp)
+
+    # Сортируем по имени
+    filtered_employees.sort(key=lambda x: x.full_name)
+
+    return render(request, 'filter_list.html', {
+        'employees': filtered_employees,
+        'age_min': age_min,
+        'age_max': age_max,
+    })
 
 def manager_list(request):
     # Получаем начальников из автоматизации

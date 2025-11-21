@@ -12,4 +12,5 @@ urlpatterns = [
     path('add-project-employees/', views.add_project_employees, name='add_project_employees'),
     path('get-project-dates/', get_project_dates, name='get_project_dates'),
     path('bulk-create-assignments/', views.bulk_create_employee_assignments, name='bulk_create_assignments'),
+    path('filter/', views.filtered_employee_list, name='filtered_list'),
 ]
