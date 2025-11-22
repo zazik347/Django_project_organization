@@ -11,3 +11,4 @@ class EquipmentTransferAdmin(admin.ModelAdmin):
     list_filter = ('transfer_date', 'from_department', 'to_department')
     search_fields = ('equipment__name', 'responsible_person')
     readonly_fields = ('transfer_date',)
+    autocomplete_fields = ['responsible_person']  # Поиск по имени

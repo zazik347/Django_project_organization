@@ -165,7 +165,11 @@ class EquipmentTransfer(models.Model):
         verbose_name='Отдел-получатель'
     )
     transfer_date = models.DateField(default=date.today, verbose_name='Дата передачи')
-    responsible_person = models.CharField(max_length=255, verbose_name='Ответственное лицо')
+    responsible_person = models.ForeignKey(
+        Employee,
+        on_delete=models.CASCADE,
+        verbose_name='Ответственное лицо'
+    )
     notes = models.TextField(blank=True, null=True, verbose_name='Комментарии')
 
     def __str__(self):
