@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-Распределение оборудования на {{ target_date }}
+Перемещать оборудование со склада
 {% endblock %}
 {% block body %}
 <div class="container">
@@ -37,51 +37,51 @@
       <a class="nav-item nav-link link-body-emphasis" href="{% url 'main_page:reviews' %}" >Отзывы</a>
     </nav>
   </div>
-</div>
-    <div class="container">
-    <h1>Распределение оборудования</h1>
+<div class="container mt-4">
+    <h2>Выдать оборудование со склада</h2>
 
-    <form method="get">
-        <div class="input-group mb-3">
-            <input type="date" name="date" class="form-control" value="{{ target_date|date:'Y-m-d' }}">
-            <button type="submit" class="btn btn-primary">Показать</button>
-        </div>
-    </form>
-
-    {% if active_assignments %}
-        <h3>Активные распределения (на {{ target_date|date }}):</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Оборудование</th>
-                    <th>Сотрудник</th>
-                    <th>Проект</th>
-                    <th>Дата выдачи</th>
-                    <th>Дата возврата</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for assignment in active_assignments %}
-                    <tr>
-                        <td>{{ assignment.equipment.name }}</td>
-                        <td>{{ assignment.employee.full_name }}</td>
-                        <td>{{ assignment.project.title }}</td>
-                        <td>{{ assignment.assigned_date|date:"d.m.Y" }}</td>
-                        <td>
-                            {% if assignment.returned_date %}
-                                {{ assignment.returned_date|date:"d.m.Y" }}
-                            {% else %}
-                                Не возвращено
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>На указанную дату оборудование не было распределено.</p>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
     {% endif %}
-    <a href="{%url 'equipment:equipment_list_by_period'%}" class="btn btn-success">Получить список оборудования за период</a>
-    <a href="{%url 'equipment:issue_equipment'%}" class="btn btn-success">Форма выдачи оборудования</a>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form.equipment.id_for_label }}" class="form-label">{{ form.equipment.label }}</label>
+            {{ form.equipment }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.department.id_for_label }}" class="form-label">{{ form.department.label }}</label>
+            {{ form.department }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.responsible_person.id_for_label }}" class="form-label">{{ form.responsible_person.label }}</label>
+            {{ form.responsible_person }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+            {{ form.notes }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Выдать</button>
+        <a href="/" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#id_responsible_person').select2({
+            placeholder: "Выберите ответственного",
+            allowClear: true
+        });
+    });
+</script>
 </div>
 {% endblock %}

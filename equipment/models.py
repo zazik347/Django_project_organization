@@ -79,21 +79,24 @@ class Equipment(models.Model):
         self.save()
         return transfer
 
-    def mark_as_returned(self, from_department, person, notes=""):
+    def mark_as_issued(self, to_department, person, notes=""):
         """
-        Вернуть оборудование на склад
+        Выдать оборудование отделу
+        :param to_department: объект Department
+        :param person: объект Employee (не строка!)
+        :param notes: комментарий
         """
         from .models import EquipmentTransfer
         transfer = EquipmentTransfer.objects.create(
             equipment=self,
-            from_department=from_department,
-            to_department=None,
-            responsible_person=person,
+            from_department=None,
+            to_department=to_department,
+            responsible_person=person,  # ← объект Employee
             notes=notes,
             transfer_date=date.today()
         )
-        self.current_department = None
-        self.status = 'in_stock'
+        self.current_department = to_department
+        self.status = 'in_use'
         self.save()
         return transfer
 
@@ -121,9 +124,6 @@ class Equipment(models.Model):
     @property
     def is_in_use(self):
         return self.status == 'in_use'
-
-
-
 
 
 class EquipmentAssignment(models.Model):

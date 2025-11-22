@@ -1,8 +1,12 @@
 import logging
 from datetime import date
 
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from .forms import IssueEquipmentForm
 from .models import Equipment, EquipmentAssignment
 
 logger = logging.getLogger(__name__)
@@ -78,3 +82,28 @@ def equipment_list_by_period(request):
         'end_date': end_date,
     })
 
+@login_required
+def issue_equipment(request):
+    if request.method == 'POST':
+        form = IssueEquipmentForm(request.POST)
+        if form.is_valid():
+            equipment = form.cleaned_data['equipment']
+            department = form.cleaned_data['department']
+            person = form.cleaned_data['responsible_person']
+            notes = form.cleaned_data['notes']
+
+            # Используем метод модели
+            equipment.mark_as_issued(
+                to_department=department,
+                person=person,
+                notes=notes
+            )
+
+            messages.success(request, f'Оборудование "{equipment}" выдано отделу {department}')
+            return redirect('issue_equipment')
+    else:
+        form = IssueEquipmentForm()
+
+    return render(request, 'issue_form.html', {
+        'form': form
+    })
