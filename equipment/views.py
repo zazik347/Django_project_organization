@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from .forms import IssueEquipmentForm
-from .models import Equipment, EquipmentAssignment
+from .models import Equipment, EquipmentAssignment, EquipmentTransfer
 
 logger = logging.getLogger(__name__)
 
@@ -100,10 +100,19 @@ def issue_equipment(request):
             )
 
             messages.success(request, f'Оборудование "{equipment}" выдано отделу {department}')
-            return redirect('issue_equipment')
+            return redirect('equipment:issue_equipment')
     else:
         form = IssueEquipmentForm()
 
     return render(request, 'issue_form.html', {
         'form': form
+    })
+def equipment_issued_list(request):
+    # Все передачи, где оборудование выдано со склада (from_department = None)
+    issued_transfers = EquipmentTransfer.objects.filter(
+        from_department__isnull=True
+    ).select_related('equipment', 'to_department', 'responsible_person')
+
+    return render(request, 'issued_list.html', {
+        'issued_transfers': issued_transfers
     })
