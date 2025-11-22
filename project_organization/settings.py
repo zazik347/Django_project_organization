@@ -51,15 +51,12 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'equipment.apps.EquipmentConfig',
     'subcontractors.apps.SubcontractorsConfig',
-    'technicians.apps.TechniciansConfig',
     'lab_workers.apps.LabWorkersConfig',
-    'support_staff.apps.SupportStaffConfig',
     'constructors.apps.ConstructorsConfig',
     'main_page.apps.MainPageConfig',
     'user.apps.UserConfig',
     'user_profile.apps.UserProfileConfig',
     'avtomatizations.apps.AvtomatizationsConfig',
-    'all_list_employees.apps.AllListEmployeesConfig',
 ]
 
 MIDDLEWARE = [

@@ -24,7 +24,14 @@
                 {% for contract in contracts %}
                     <li class="list-group-item">
                         <a href="{% url 'projects:project_employees' contract.id %}">
-                            {{ contract.number }} - {{ contract.primary_project.title }}
+                            {{ contract.number }} -
+                            {% with contract.projects.first as project %}
+                                {% if project %}
+                                    {{ project.title }}
+                                {% else %}
+                                    Без проекта
+                                {% endif %}
+                            {% endwith %}
                         </a>
                     </li>
                 {% endfor %}

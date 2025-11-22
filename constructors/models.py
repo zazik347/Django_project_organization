@@ -25,6 +25,18 @@ class Constructor(models.Model):
     role = models.ForeignKey(ConstructorRole, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Должность')
     photo = models.ImageField(upload_to=engineer_constr_photo_path, blank=True, null=True)
     projects = models.ManyToManyField('projects.Project', related_name='constructors', verbose_name='Проекты', blank=True)
+    certificates = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Авторские свидетельства",
+        help_text="Перечислите авторские свидетельства, патенты, изобретения"
+    )
+
+    patent_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Количество авторских свидетельств",
+        help_text="Введите число — сколько патентов или свидетельств у конструктора"
+    )
 
     def experience(self):
         today = datetime.date.today()

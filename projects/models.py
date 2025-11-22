@@ -10,7 +10,7 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     cost = models.DecimalField(max_digits=12, decimal_places=2)
-    contract = models.ForeignKey('contracts.Contract', on_delete=models.CASCADE, related_name='projects')
+    # contract = models.ForeignKey('contracts.Contract', on_delete=models.CASCADE, related_name='projects')
     manager = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='managed_projects')
     employees_more = models.ManyToManyField("employees.Employee", related_name='assigned_projects', blank=True, verbose_name='Привлечь сотрудников')
     new_employees_more = models.ManyToManyField("employees.Employee", through='ProjectEmployee', related_name='new_employees_more', blank=True,
@@ -21,7 +21,6 @@ class Project(models.Model):
         "employees.Employee",
         through='employees.EmployeeAssignment',
         related_name='assigned_projects_money'
-
     )
     subcontractors = models.ManyToManyField(
         'subcontractors.Subcontractor',

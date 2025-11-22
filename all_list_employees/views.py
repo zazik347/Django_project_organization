@@ -10,12 +10,6 @@ def staff_list(request):
 
     # Объединяем их в один список
     all_staff = []
-    # for staff in constructor_staff:
-    #     all_staff.append({
-    #         'full_name': staff.full_name,
-    #         'department': 'Конструкторы',
-    #         'role': staff.role.name if staff.role else 'Не указано',
-    #     })
     for staff in automation_staff:
         all_staff.append({
             'full_name': staff.full_name,

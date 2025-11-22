@@ -62,7 +62,15 @@
         <ul class="list-group">
             {% for contract in contracts %}
                 <li class="list-group-item">
-                   Договор № {{ contract.number }} - {{ contract.project_more.title }} - {{ contract.total_cost }} руб.
+                   Договор № {{ contract.number }} -
+                    {% with contract.projects.first as project %}
+                        {% if project %}
+                            {{ project.title }}
+                        {% else %}
+                            Без проекта
+                        {% endif %}
+                    {% endwith %}
+                - {{ contract.total_cost }} руб.
                 </li>
             {% endfor %}
         </ul>

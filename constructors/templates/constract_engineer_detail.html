@@ -91,6 +91,18 @@
             </ul>
         {% endif %}
     </li>
+    <li class="list-group-item">
+        <strong>Авторские свидетельства:</strong>
+        {% if worker.certificates %}
+            {{ worker.certificates|linebreaks }}
+        {% else %}
+            Нет данных
+        {% endif %}
+    </li>
+    <li class="list-group-item">
+        <strong>Количество свидетельств:</strong>
+        {{ worker.patent_count }}
+    </li>
   </ul>
   <div class="card-body">
     <a href="{% url 'constractors:engineer_constract_update' worker.pk %}" class="card-link">Редактировать профиль</a>

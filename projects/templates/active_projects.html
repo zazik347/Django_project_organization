@@ -42,7 +42,7 @@
         <ul class="list-group mt-3">
             {% for project in active_projects %}
                 <li class="list-group-item">
-                    <strong>{{ project.name }}</strong><br>
+                    <strong>{{ project.title }}</strong><br>
                     {{ project.description|truncatewords:20 }}<br>
                     Дата начала: {{project.start_date }}<br>
                     Дата окончания: {{project.end_date }}

@@ -41,8 +41,6 @@ def equipment_distribution(request):
 
 def equipment_list_by_period(request):
     # # Устанавливаем значения по умолчанию
-    # start_date = date.today()
-    # end_date = date.today()
     # Получаем даты из GET-параметров
     start_date_str = request.GET.get('start_date')
     end_date_str = request.GET.get('end_date')

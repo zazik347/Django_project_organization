@@ -8,18 +8,25 @@ from employees.models import Employee
 class Contract(models.Model):
     client = models.CharField(max_length=255)
     number = models.CharField(max_length=50)
-    primary_project = models.ForeignKey(
+    # Убираем primary_project, добавляем projects
+    projects = models.ManyToManyField(
         'projects.Project',
-        on_delete=models.SET_NULL,
-        null=True,
+        related_name='contracts',
         blank=True,
-        related_name='primary_contract',
-        verbose_name='Основной проект'
+        verbose_name='Проекты по договору'
     )
+    # primary_project = models.ForeignKey(
+    #     'projects.Project',
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True,
+    #     related_name='primary_contract',
+    #     verbose_name='Основной проект'
+    # )
     start_date = models.DateField(default=date.fromisoformat('2025-10-20'))
     end_date = models.DateField(null=True, blank=True)
     total_cost = models.DecimalField(max_digits=12, decimal_places=2)
-    manager = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='managed_contracts')
+    manager =  models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='managed_contracts')
 
     def __str__(self):
         return f"Договор с {self.client} - {self.number}"

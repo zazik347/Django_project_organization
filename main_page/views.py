@@ -22,18 +22,6 @@ def reviews(request):
     return render(request, 'reviews.html')
 def search_choose(request):
     return render(request, 'search_choose.html')
-
-# def search(request):
-#     query = request.GET.get('q', '').strip()
-#
-#     contracts = Contract.objects.filter(number__icontains=query) if query else Contract.objects.none()
-#     projects = Project.objects.filter(title__icontains=query) if query else Project.objects.none()
-#
-#     return render(request, 'search_results.html', {
-#         'query': query,
-#         'contracts': contracts,
-#         'projects': projects,
-#     })
 def search(request):
     query = request.GET.get('q', '').strip()
     search_type = request.GET.get('type', '')  # 'contract' или 'project'

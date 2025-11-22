@@ -48,7 +48,16 @@
                 <ul class="list-group">
                     {% for contract in completed_contracts %}
                         <li class="list-group-item">
-                            Договор №{{ contract.number }} - {{ contract.project_more.title }} - завершен: {{ contract.end_date }}. Стоимость: {{ contract.total_cost }} руб
+{#                            Договор №{{ contract.number }} - {{ contract.project_more.title }} - завершен: {{ contract.end_date }}. Стоимость: {{ contract.total_cost }} руб#}
+                        Договор №{{ contract.number }} -
+                        {% with contract.projects.first as project %}
+                            {% if project %}
+                                {{ project.title }}
+                            {% else %}
+                                Без проекта
+                            {% endif %}
+                        {% endwith %}
+                        - начат: {{ contract.start_date }}. Стоимость: {{ contract.total_cost }} руб
                         </li>
                     {% endfor %}
                 </ul>
@@ -56,14 +65,22 @@
                 <p>Нет выполненных договоров.</p>
             {% endif %}
         </div>
-
         <div class="col-md-6">
             <h3>Невыполненные договоры (отсортированы по дате начала)</h3>
             {% if uncompleted_contracts %}
                 <ul class="list-group">
                     {% for contract in uncompleted_contracts %}
                         <li class="list-group-item">
-                            Договор №{{ contract.number }} - {{ contract.project_more.title }} - начат: {{ contract.start_date }}. Стоимость: {{ contract.total_cost }} руб
+{#                            Договор №{{ contract.number }} - {{ contract.project_more.title }} - начат: {{ contract.start_date }}. Стоимость: {{ contract.total_cost }} руб#}
+                        Договор №{{ contract.number }} -
+                        {% with contract.projects.first as project %}
+                            {% if project %}
+                                {{ project.title }}
+                            {% else %}
+                                Без проекта
+                            {% endif %}
+                        {% endwith %}
+                        - начат: {{ contract.start_date }}. Стоимость: {{ contract.total_cost }} руб
                         </li>
                     {% endfor %}
                 </ul>
