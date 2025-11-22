@@ -108,11 +108,19 @@ def issue_equipment(request):
         'form': form
     })
 def equipment_issued_list(request):
-    # Все передачи, где оборудование выдано со склада (from_department = None)
+    # Все записи, где оборудование выдано или передано (не на складе)
     issued_transfers = EquipmentTransfer.objects.filter(
-        from_department__isnull=True
+        from_department__isnull=True  # Выдано со склада
     ).select_related('equipment', 'to_department', 'responsible_person')
 
+    # Передачи между отделами
+    transferred_between = EquipmentTransfer.objects.filter(
+        from_department__isnull=False,
+        to_department__isnull=False
+    ).select_related('equipment', 'from_department', 'to_department', 'responsible_person')
+
+    # Объединим в один список (можно в шаблоне)
     return render(request, 'issued_list.html', {
-        'issued_transfers': issued_transfers
+        'issued_transfers': issued_transfers,
+        'transferred_between': transferred_between,
     })

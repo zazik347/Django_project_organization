@@ -38,33 +38,66 @@
     </nav>
   </div>
 <div class="container mt-4">
-    <h2>Выданное оборудование</h2>
+    <h2>Оборудование вне склада</h2>
 
+    <!-- Выдано со склада -->
+    <h4>Выдано со склада</h4>
     {% if issued_transfers %}
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>Оборудование</th>
-                <th>Отдел</th>
+                <th>Получатель</th>
                 <th>Ответственный</th>
-                <th>Дата выдачи</th>
+                <th>Дата</th>
                 <th>Комментарии</th>
             </tr>
             </thead>
             <tbody>
-            {% for transfer in issued_transfers %}
+            {% for t in issued_transfers %}
                 <tr>
-                    <td>{{ transfer.equipment.name }}</td>
-                    <td>{{ transfer.to_department }}</td>
-                    <td>{{ transfer.responsible_person.full_name }}</td>
-                    <td>{{ transfer.transfer_date|date:"d.m.Y" }}</td>
-                    <td>{{ transfer.notes|default:"—" }}</td>
+                    <td>{{ t.equipment.name }}</td>
+                    <td>{{ t.to_department }}</td>
+                    <td>{{ t.responsible_person.full_name }}</td>
+                    <td>{{ t.transfer_date|date:"d.m.Y" }}</td>
+                    <td>{{ t.notes|default:"—" }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p class="text-muted">Нет выданного оборудования.</p>
+        <p class="text-muted">Нет оборудования, выданного со склада.</p>
+    {% endif %}
+
+    <!-- Передано между отделами -->
+    <h4 class="mt-4">Передано между отделами</h4>
+    {% if transferred_between %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Оборудование</th>
+                <th>От кого</th>
+                <th>Кому</th>
+                <th>Ответственный</th>
+                <th>Дата</th>
+                <th>Комментарии</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for t in transferred_between %}
+                <tr>
+                    <td>{{ t.equipment.name }}</td>
+                    <td>{{ t.from_department }}</td>
+                    <td>{{ t.to_department }}</td>
+                    <td>{{ t.responsible_person.full_name }}</td>
+                    <td>{{ t.transfer_date|date:"d.m.Y" }}</td>
+                    <td>{{ t.notes|default:"—" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">Нет передач между отделами.</p>
     {% endif %}
 
     <a href="{% url 'equipment:issue_equipment' %}" class="btn btn-primary">Выдать оборудование</a>
